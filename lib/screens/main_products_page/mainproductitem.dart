@@ -24,21 +24,23 @@ class MainProductItem extends StatelessWidget {
         child: GridTileBar(
           leading: IconButton(
               onPressed: () {},
-              icon: const Icon(
+              icon: Icon(
                 Icons.favorite,
+                color: Theme.of(context).colorScheme.secondary,
                 size: 24,
               )),
           trailing: IconButton(
               onPressed: () {},
-              icon: const Icon(
+              icon: Icon(
                 Icons.shopping_cart,
+                color: Theme.of(context).colorScheme.secondary,
                 size: 24,
               )),
           title: Text(
             title,
             //textAlign: TextAlign.center,
           ),
-          backgroundColor: Colors.black45,
+          backgroundColor: Colors.black87,
         ),
       ),
     );
