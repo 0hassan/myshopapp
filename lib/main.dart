@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './screens/main_products_page/mainproductsscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,15 +10,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'SK-Products',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lime)
+            .copyWith(secondary: Colors.purple),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('SK-Products'),
-        ),
-      ),
+      routes: {
+        '/': (context) => MainProductsScreen(),
+      },
     );
   }
 }
