@@ -1,7 +1,9 @@
-class MainProductModal {
+import 'package:flutter/material.dart';
+
+class MainProductModal with ChangeNotifier {
   final String id, title, description, imgUrl;
   final double price;
-  final bool isFavorite;
+  late bool isFavorite;
 
   MainProductModal({
     required this.description,
@@ -11,4 +13,9 @@ class MainProductModal {
     required this.price,
     required this.title,
   });
+
+  void togleFavorite() {
+    isFavorite = !isFavorite;
+    notifyListeners();
+  }
 }

@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:myshopapp/providers/main_products_modal.dart';
+import 'package:provider/provider.dart';
 import '../screens/products_details_screen.dart';
 
 class MainProductItem extends StatelessWidget {
-  final String id, title, imgUrl;
   const MainProductItem({
     Key? key,
-    required this.id,
-    required this.imgUrl,
-    required this.title,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final item = Provider.of<MainProductModal>(context);
     return GridTile(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(ProductsDetailScreen.routeName);
+            Navigator.of(context).pushNamed(
+              ProductsDetailScreen.routeName,
+              arguments: item.id,
+            );
           },
           child: Image.network(
-            imgUrl,
+            item.imgUrl,
             fit: BoxFit.cover,
           ),
         ),
@@ -29,9 +31,11 @@ class MainProductItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: GridTileBar(
           leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                item.togleFavorite();
+              },
               icon: Icon(
-                Icons.favorite,
+                item.isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: Theme.of(context).colorScheme.secondary,
                 size: 24,
               )),
@@ -43,7 +47,7 @@ class MainProductItem extends StatelessWidget {
                 size: 24,
               )),
           title: Text(
-            title,
+            item.title,
             //textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.black87,
