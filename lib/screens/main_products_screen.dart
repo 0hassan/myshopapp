@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myshopapp/screens/main_products_page/mainproductitem.dart';
+import '../widgets/main_products_item.dart';
 
-import 'mainproductsmodal.dart';
+import '../models/main_products_modal.dart';
 
 class MainProductsScreen extends StatelessWidget {
   MainProductsScreen({Key? key}) : super(key: key);
