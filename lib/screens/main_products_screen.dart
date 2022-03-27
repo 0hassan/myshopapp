@@ -5,29 +5,76 @@ import 'package:provider/provider.dart';
 import '../providers/products_provider.dart';
 import '../widgets/main_products_item.dart';
 
-class MainProductsScreen extends StatelessWidget {
+// enum FilterOptions {
+//   favorite,
+//   all,
+// }
+
+class MainProductsScreen extends StatefulWidget {
   const MainProductsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<MainProductsScreen> createState() => _MainProductsScreenState();
+}
+
+class _MainProductsScreenState extends State<MainProductsScreen> {
+  bool _isFavorite = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SK-Products'),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (_) => [
+              const PopupMenuItem(
+                child: Text('All Items'),
+                value: 0,
+              ),
+              const PopupMenuItem(
+                child: Text('Only Favorite'),
+                value: 1,
+              ),
+            ],
+            icon: const Icon(Icons.more_vert),
+            onSelected: (int selected) {
+              setState(() {
+                if (selected == 1) {
+                  _isFavorite = true;
+                } else {
+                  _isFavorite = false;
+                }
+              });
+            },
+          ),
+        ],
       ),
-      body: const GridviewBuilder(),
+      body: GridviewBuilder(this._isFavorite),
     );
   }
 }
 
+// ignore: must_be_immutable
 class GridviewBuilder extends StatelessWidget {
-  const GridviewBuilder({
+  bool xyz;
+  // ignore: use_key_in_widget_constructors
+  GridviewBuilder(
+    this.xyz, {
     Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final listdata = Provider.of<ProductsProvider>(context);
-    final list = listdata.list;
+    // print(_isfavorite);
+    late List<MainProductModal> list;
+
+    if (xyz) {
+      list = listdata.favoritelist;
+    } else {
+      list = listdata.list;
+    }
+
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -36,8 +83,8 @@ class GridviewBuilder extends StatelessWidget {
         crossAxisSpacing: 10,
       ),
       itemBuilder: (ctx, index) {
-        return ChangeNotifierProvider(
-          create: (context) => list[index],
+        return ChangeNotifierProvider.value(
+          value: list[index],
           child: const MainProductItem(),
         );
       },

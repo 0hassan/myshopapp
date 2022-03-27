@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myshopapp/providers/main_products_modal.dart';
 
 class ProductsProvider with ChangeNotifier {
-  List<MainProductModal> _list = [
+  final List<MainProductModal> _list = [
     MainProductModal(
       id: 'p1',
       title: 'Red Shirt',
@@ -38,6 +38,10 @@ class ProductsProvider with ChangeNotifier {
 
   List<MainProductModal> get list {
     return [..._list];
+  }
+
+  List<MainProductModal> get favoritelist {
+    return _list.where((element) => element.isFavorite == true).toList();
   }
 
   void addProduct(MainProductModal value) {

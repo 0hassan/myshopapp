@@ -10,7 +10,10 @@ class MainProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final item = Provider.of<MainProductModal>(context);
+    final item = Provider.of<MainProductModal>(
+      context,
+    );
+
     return GridTile(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
