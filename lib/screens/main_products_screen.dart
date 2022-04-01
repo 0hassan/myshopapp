@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myshopapp/21.2%20badge.dart';
+import 'package:myshopapp/providers/cart.dart';
 import 'package:myshopapp/providers/main_products_modal.dart';
+import 'package:myshopapp/screens/cart_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products_provider.dart';
@@ -21,6 +24,8 @@ class _MainProductsScreenState extends State<MainProductsScreen> {
   bool _isFavorite = false;
   @override
   Widget build(BuildContext context) {
+    final cartData = Provider.of<Cart>(context);
+    final cart = cartData.list;
     return Scaffold(
       appBar: AppBar(
         title: const Text('SK-Products'),
@@ -47,9 +52,22 @@ class _MainProductsScreenState extends State<MainProductsScreen> {
               });
             },
           ),
+          Consumer(
+            builder: (_, cart, ch) => Badge(
+              child: ch!,
+              value: cartData.itemCount.toString(),
+              color: Colors.greenAccent,
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
         ],
       ),
-      body: GridviewBuilder(this._isFavorite),
+      body: GridviewBuilder(_isFavorite),
     );
   }
 }
@@ -66,7 +84,6 @@ class GridviewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final listdata = Provider.of<ProductsProvider>(context);
-    // print(_isfavorite);
     late List<MainProductModal> list;
 
     if (xyz) {
