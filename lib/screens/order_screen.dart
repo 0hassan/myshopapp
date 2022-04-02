@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../widgets/order_item.dart';
 
 class OrderScreen extends StatelessWidget {
+  static const routeName = '/order_screen';
   const OrderScreen({Key? key}) : super(key: key);
 
   @override
@@ -18,7 +19,9 @@ class OrderScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemBuilder: ((context, index) => const OrderItem()),
+        itemBuilder: ((context, index) => OrderItem(
+              orderdata: orderData.orders[index],
+            )),
         itemCount: orderData.orders.length,
       ),
     );

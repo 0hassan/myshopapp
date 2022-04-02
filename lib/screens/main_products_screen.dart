@@ -67,7 +67,7 @@ class _MainProductsScreenState extends State<MainProductsScreen> {
           ),
         ],
       ),
-      drawer: DrawerX(),
+      drawer: const DrawerX(),
       body: GridviewBuilder(_isFavorite),
     );
   }
