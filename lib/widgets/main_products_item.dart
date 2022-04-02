@@ -15,7 +15,6 @@ class MainProductItem extends StatelessWidget {
       context,
     );
     final cartData = Provider.of<Cart>(context, listen: false);
-    final cart = cartData.list;
 
     return GridTile(
       child: ClipRRect(
@@ -46,14 +45,15 @@ class MainProductItem extends StatelessWidget {
                 size: 24,
               )),
           trailing: IconButton(
-              onPressed: () {
-                cartData.addToCart(item.id, item.title, item.price);
-              },
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Theme.of(context).colorScheme.secondary,
-                size: 24,
-              )),
+            icon: Icon(
+              Icons.shopping_cart,
+              color: Theme.of(context).colorScheme.secondary,
+              size: 24,
+            ),
+            onPressed: () {
+              cartData.addToCart(item.id, item.title, item.price);
+            },
+          ),
           title: Text(
             item.title,
             //textAlign: TextAlign.center,

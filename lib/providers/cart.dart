@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class CartItem {
@@ -61,6 +59,16 @@ class Cart with ChangeNotifier {
         ),
       );
     }
+    notifyListeners();
+  }
+
+  void removeItemFromCart(String id) {
+    _list.remove(id);
+    notifyListeners();
+  }
+
+  void clear() {
+    _list.clear();
     notifyListeners();
   }
 }

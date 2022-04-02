@@ -21,7 +21,45 @@ class ProductsDetailScreen extends StatelessWidget {
           item.title,
         ),
       ),
-      body: const Text('hello'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                item.imgUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              item.title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Lato-Regular',
+                fontSize: 26,
+                color: Colors.red,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              item.description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Lato-Regular',
+                fontSize: 14,
+                color: Colors.red,
+              ),
+              softWrap: true,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

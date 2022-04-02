@@ -3,6 +3,7 @@ import 'package:myshopapp/21.2%20badge.dart';
 import 'package:myshopapp/providers/cart.dart';
 import 'package:myshopapp/providers/main_products_modal.dart';
 import 'package:myshopapp/screens/cart_screen.dart';
+import 'package:myshopapp/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/products_provider.dart';
@@ -25,7 +26,6 @@ class _MainProductsScreenState extends State<MainProductsScreen> {
   @override
   Widget build(BuildContext context) {
     final cartData = Provider.of<Cart>(context);
-    final cart = cartData.list;
     return Scaffold(
       appBar: AppBar(
         title: const Text('SK-Products'),
@@ -67,6 +67,7 @@ class _MainProductsScreenState extends State<MainProductsScreen> {
           ),
         ],
       ),
+      drawer: DrawerX(),
       body: GridviewBuilder(_isFavorite),
     );
   }
