@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myshopapp/providers/order.dart' as pdr;
+import 'package:myshopapp/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/order_item.dart';
@@ -18,6 +19,7 @@ class OrderScreen extends StatelessWidget {
           style: TextStyle(fontFamily: 'Lato-Bold'),
         ),
       ),
+      drawer: const DrawerX(),
       body: ListView.builder(
         itemBuilder: ((context, index) => OrderItem(
               orderdata: orderData.orders[index],

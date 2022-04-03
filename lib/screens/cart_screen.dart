@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:myshopapp/screens/order_screen.dart';
 
 import 'package:myshopapp/widgets/cart_item.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +44,6 @@ class CartScreen extends StatelessWidget {
                           cart.list.values.toList(),
                         );
                         cart.clear();
-                        Navigator.of(context).pushNamed(OrderScreen.routeName);
                       },
                       child: const Text('ORDER NOW'))
                 ],
