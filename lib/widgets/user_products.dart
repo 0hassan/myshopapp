@@ -10,30 +10,42 @@ class UserProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(img),
+    return Container(
+      padding: const EdgeInsets.all(4),
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+        borderRadius: BorderRadius.circular(10),
       ),
-      title: Text(title),
-      trailing: SizedBox(
-        width: 100,
-        child: Row(
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Theme.of(context).primaryColor,
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: 25,
+          backgroundImage: NetworkImage(img),
+        ),
+        title: Text(title,
+            style: const TextStyle(
+              fontFamily: 'Anton-Regular',
+            )),
+        trailing: SizedBox(
+          width: 100,
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.edit,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onPressed: () {},
               ),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).errorColor,
+              IconButton(
+                icon: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).errorColor,
+                ),
+                onPressed: () {},
               ),
-              onPressed: () {},
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

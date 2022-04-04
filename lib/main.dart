@@ -34,9 +34,10 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'SK-Products',
         theme: ThemeData(
+          primaryColor: Colors.lime,
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lime)
               .copyWith(secondary: Colors.lightGreen),
-          fontFamily: 'Lato',
+          fontFamily: 'Lato-Bold',
         ),
         routes: {
           '/': (context) => const MainProductsScreen(),
