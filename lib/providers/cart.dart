@@ -30,7 +30,7 @@ class Cart with ChangeNotifier {
     _list.forEach((key, value) {
       temp = temp + (value.price * value.quantity);
     });
-    return temp.roundToDouble();
+    return temp;
   }
 
   void addToCart(
@@ -64,6 +64,24 @@ class Cart with ChangeNotifier {
 
   void removeItemFromCart(String id) {
     _list.remove(id);
+    notifyListeners();
+  }
+
+  void removeSingleItem(String pid) {
+    if (!_list.containsKey(pid)) return;
+    if (_list[pid]!.quantity > 1) {
+      _list.update(
+        pid,
+        (value) => CartItem(
+          id: value.id,
+          price: value.price,
+          quantity: (value.quantity - 1),
+          title: value.title,
+        ),
+      );
+    } else {
+      _list.remove(pid);
+    }
     notifyListeners();
   }
 

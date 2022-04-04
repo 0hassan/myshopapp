@@ -34,7 +34,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   Chip(
-                    label: Text('\$${cart.totallBill}'),
+                    label: Text('\$${cart.totallBill.toStringAsFixed(2)}'),
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
                   FlatButton(
