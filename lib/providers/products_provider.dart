@@ -45,7 +45,14 @@ class ProductsProvider with ChangeNotifier {
   }
 
   void addProduct(MainProductModal value) {
-    _list.add(value);
+    final newProduct = MainProductModal(
+      description: value.description,
+      id: DateTime.now().toString(),
+      imgUrl: value.imgUrl,
+      price: value.price,
+      title: value.title,
+    );
+    _list.add(newProduct);
     notifyListeners();
   }
 

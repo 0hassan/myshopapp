@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myshopapp/providers/main_products_modal.dart';
+import 'package:myshopapp/providers/products_provider.dart';
+import 'package:provider/provider.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/EditProgramScreen';
@@ -10,13 +13,53 @@ class EditProductScreen extends StatefulWidget {
 
 class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
+  final _imageurlFocusNode = FocusNode();
   final _imageurlcontroler = TextEditingController();
+  final _form = GlobalKey<FormState>();
+  var _editedProduct = MainProductModal(
+    description: '',
+    id: '',
+    imgUrl: '',
+    price: 0,
+    title: '',
+  );
+
+  @override
+  void initState() {
+    _imageurlFocusNode.addListener(_updateImageUrl);
+    super.initState();
+  }
 
   @override
   void dispose() {
+    _imageurlFocusNode.removeListener(_updateImageUrl);
     _priceFocusNode.dispose();
+    _imageurlFocusNode.dispose();
     _imageurlcontroler.dispose();
     super.dispose();
+  }
+
+  void _updateImageUrl() {
+    if ((!_imageurlcontroler.text.startsWith('http') &&
+            !_imageurlcontroler.text.startsWith('https')) ||
+        ((!_imageurlcontroler.text.endsWith('.png')) &&
+            (!_imageurlcontroler.text.endsWith('.jpg')) &&
+            (!_imageurlcontroler.text.endsWith('.jpeg')))) {
+      return;
+    }
+    if (!_imageurlFocusNode.hasFocus) {
+      setState(() {});
+    }
+  }
+
+  void _saveForm() {
+    var isvalid = _form.currentState!.validate();
+    if (!isvalid) {
+      return;
+    }
+    _form.currentState!.save();
+    Provider.of<ProductsProvider>(context, listen: false)
+        .addProduct(_editedProduct);
   }
 
   @override
@@ -29,11 +72,26 @@ class _EditProductScreenState extends State<EditProductScreen> {
               color: Theme.of(context).primaryColorDark,
               fontFamily: 'Lato-Regular'),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                _saveForm();
+              },
+              icon: const Icon(Icons.save))
+        ],
       ),
       body: Form(
+        key: _form,
         child: ListView(
           children: [
             TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter The Title';
+                } else {
+                  return null;
+                }
+              },
               decoration: const InputDecoration(
                 labelText: 'Title',
               ),
@@ -41,22 +99,66 @@ class _EditProductScreenState extends State<EditProductScreen> {
               onFieldSubmitted: (_) {
                 FocusScope.of(context).requestFocus(_priceFocusNode);
               },
+              onSaved: (vlaue) {
+                _editedProduct = MainProductModal(
+                  description: _editedProduct.description,
+                  id: _editedProduct.id,
+                  imgUrl: _editedProduct.imgUrl,
+                  price: _editedProduct.price,
+                  title: vlaue.toString(),
+                );
+              },
             ),
             TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter The Price';
+                } else if (double.tryParse(value.toString()) == null) {
+                  return 'Invalid Input!';
+                }
+                return null;
+              },
               decoration: const InputDecoration(
                 labelText: 'Price',
               ),
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               focusNode: _priceFocusNode,
+              onSaved: (vlaue) {
+                _editedProduct = MainProductModal(
+                  description: _editedProduct.description,
+                  id: _editedProduct.id,
+                  imgUrl: _editedProduct.imgUrl,
+                  price: double.parse(vlaue.toString()),
+                  title: _editedProduct.title,
+                );
+              },
             ),
             TextFormField(
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter The Description!';
+                } else if (value.characters.length < 10) {
+                  return 'Description should not be less then 10 Chracters.';
+                } else {
+                  return null;
+                }
+              },
               decoration: const InputDecoration(
                 labelText: 'Description',
               ),
               // textInputAction: TextInputAction.next,
               keyboardType: TextInputType.multiline,
               maxLines: 3,
+              onSaved: (vlaue) {
+                _editedProduct = MainProductModal(
+                  description: vlaue.toString(),
+                  id: _editedProduct.id,
+                  imgUrl: _editedProduct.imgUrl,
+                  price: _editedProduct.price,
+                  title: _editedProduct.title,
+                );
+              },
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -85,11 +187,37 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ),
                 Expanded(
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Image URL is required';
+                      } else if ((!value.startsWith('http') &&
+                              !value.startsWith('https')) ||
+                          ((!value.endsWith('.png')) &&
+                              (!value.endsWith('.jpg')) &&
+                              (!value.endsWith('.jpeg')))) {
+                        return 'Invalid URL';
+                      } else {
+                        return null;
+                      }
+                    },
                     decoration: const InputDecoration(
                       labelText: 'Image URL',
                     ),
                     controller: _imageurlcontroler,
+                    focusNode: _imageurlFocusNode,
                     textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) {
+                      _saveForm();
+                    },
+                    onSaved: (vlaue) {
+                      _editedProduct = MainProductModal(
+                        description: _editedProduct.description,
+                        id: _editedProduct.id,
+                        imgUrl: vlaue.toString(),
+                        price: _editedProduct.price,
+                        title: _editedProduct.title,
+                      );
+                    },
                   ),
                 ),
               ],

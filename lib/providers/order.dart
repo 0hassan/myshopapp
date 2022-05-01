@@ -16,7 +16,7 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  List<OrderItem> _list = [];
+  final List<OrderItem> _list = [];
 
   void addNewOrder(double total, List<CartItem> products) {
     if (products.isNotEmpty) {
