@@ -30,6 +30,35 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.initState();
   }
 
+  var isInit = true;
+  var initValues = {
+    'title': '',
+    'price': '',
+    'description': '',
+    'imageURL': '',
+  };
+  var productId = '';
+  @override
+  void didChangeDependencies() {
+    if (isInit) {
+      productId = ModalRoute.of(context)?.settings.arguments as String;
+      if (productId != '') {
+        _editedProduct =
+            Provider.of<ProductsProvider>(context).findById(productId);
+        initValues = {
+          'title': _editedProduct.title,
+          'price': _editedProduct.price.toString(),
+          'description': _editedProduct.description,
+          // 'imageURL': _editedProduct.imgUrl,
+          'imageURL': '',
+        };
+        _imageurlcontroler.text = _editedProduct.imgUrl;
+      }
+    }
+    isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   void dispose() {
     _imageurlFocusNode.removeListener(_updateImageUrl);
@@ -58,8 +87,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _form.currentState!.save();
-    Provider.of<ProductsProvider>(context, listen: false)
-        .addProduct(_editedProduct);
+    if (_editedProduct.id != '') {
+      Provider.of<ProductsProvider>(context, listen: false)
+          .editProduct(productId, _editedProduct);
+    } else {
+      Provider.of<ProductsProvider>(context, listen: false)
+          .addProduct(_editedProduct);
+    }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -92,6 +127,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   return null;
                 }
               },
+              initialValue: initValues['title'],
               decoration: const InputDecoration(
                 labelText: 'Title',
               ),
@@ -118,6 +154,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 }
                 return null;
               },
+              initialValue: initValues['price'],
               decoration: const InputDecoration(
                 labelText: 'Price',
               ),
@@ -144,6 +181,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   return null;
                 }
               },
+              initialValue: initValues['description'],
               decoration: const InputDecoration(
                 labelText: 'Description',
               ),
@@ -200,6 +238,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         return null;
                       }
                     },
+                    // initialValue: initValues['imageURL'],
                     decoration: const InputDecoration(
                       labelText: 'Image URL',
                     ),

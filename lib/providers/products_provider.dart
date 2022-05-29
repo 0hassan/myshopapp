@@ -56,7 +56,23 @@ class ProductsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void editProduct(String id, MainProductModal newProduct) {
+    final prodIndex = list.indexWhere((element) => element.id == id);
+    if (prodIndex >= 0) {
+      _list.removeAt(prodIndex);
+      _list.add(newProduct);
+    } else {
+      print('....');
+    }
+    notifyListeners();
+  }
+
   MainProductModal findById(String id) {
     return _list.firstWhere((element) => element.id == id);
+  }
+
+  void deleteProduct(String id) {
+    _list.removeWhere((element) => element.id == id);
+    notifyListeners();
   }
 }

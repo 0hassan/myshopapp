@@ -21,11 +21,6 @@ class _OrderItemState extends State<OrderItem> {
       child: Column(
         children: [
           ListTile(
-            // selectedColor: Colors.greenAccent,
-            // focusColor: Colors.lime,
-            // hoverColor: Colors.lightBlue,
-            // tileColor: Colors.redAccent,
-            // selectedTileColor: Colors.red,
             title: Text('${widget.orderdata.amount}'),
             subtitle: Text(
               DateFormat('dd MM yyyy hh:mm').format(widget.orderdata.dateTime),
